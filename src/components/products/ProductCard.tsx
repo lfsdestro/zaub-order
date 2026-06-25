@@ -1,6 +1,8 @@
 'use client';
 
+import { addToCart } from '@/features/cart/cartSlice';
 import { Product } from '@/features/products/types';
+import { useAppDispatch } from '@/store/hooks';
 import {
   Box,
   Button,
@@ -19,6 +21,12 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, canAddToCart }: ProductCardProps) {
+  const dispatch = useAppDispatch();
+
+  function handleAddToCart() {
+    dispatch(addToCart(product));
+  }
+
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <CardMedia
@@ -30,9 +38,17 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
 
       <CardContent sx={{ flexGrow: 1 }}>
         <Stack spacing={1.5}>
-          <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between' }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ justifyContent: 'space-between' }}
+          >
             <Chip label={product.category} size="small" />
-            <Chip label={`${product.stock} em estoque`} size="small" variant="outlined" />
+            <Chip
+              label={`${product.stock} em estoque`}
+              size="small"
+              variant="outlined"
+            />
           </Stack>
 
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
@@ -51,7 +67,11 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
             US$ {product.price.toFixed(2)}
           </Typography>
 
-          <Button variant="contained" disabled={!canAddToCart}>
+          <Button
+            variant="contained"
+            disabled={!canAddToCart}
+            onClick={handleAddToCart}
+          >
             {canAddToCart ? 'Adicionar ao carrinho' : 'Somente leitura'}
           </Button>
         </Stack>
