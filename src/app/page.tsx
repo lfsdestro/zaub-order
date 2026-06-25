@@ -1,6 +1,7 @@
-import { AppShell } from '@/components/layout/AppShell';
-import { Button, Paper, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
+import { AppShell } from "@/components/layout/AppShell";
+import { RoleGuard } from "@/components/auth/RoleGuard";
+import { Button, Paper, Stack, Typography } from "@mui/material";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -15,7 +16,7 @@ export default function HomePage() {
             Fluxo de pedidos com catálogo, carrinho, checkout e histórico.
           </Typography>
 
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <Button component={Link} href="/products" variant="contained">
               Ver produtos
             </Button>
@@ -23,6 +24,11 @@ export default function HomePage() {
             <Button component={Link} href="/orders" variant="outlined">
               Histórico de pedidos
             </Button>
+            <RoleGuard permission="checkout:create">
+              <Typography color="success.main">
+                Você tem permissão para finalizar pedidos.
+              </Typography>
+            </RoleGuard>
           </Stack>
         </Stack>
       </Paper>
