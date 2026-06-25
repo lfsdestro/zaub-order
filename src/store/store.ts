@@ -1,5 +1,6 @@
 import authReducer from '@/features/auth/authSlice';
 import cartReducer from '@/features/cart/cartSlice';
+import ordersReducer from '@/features/orders/ordersSlice';
 import { productsApi } from '@/features/products/productsApi';
 import themeReducer from '@/features/theme/themeSlice';
 import { configureStore } from '@reduxjs/toolkit';
@@ -9,6 +10,7 @@ export const makeStore = () =>
     reducer: {
       auth: authReducer,
       cart: cartReducer,
+      orders: ordersReducer,
       theme: themeReducer,
       [productsApi.reducerPath]: productsApi.reducer,
     },
