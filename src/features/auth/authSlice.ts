@@ -4,10 +4,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type AuthState = {
   user: AuthUser | null;
+  isHydrated: boolean;
 };
 
 const initialState: AuthState = {
   user: null,
+  isHydrated: false,
 };
 
 export const authSlice = createSlice({
@@ -16,31 +18,33 @@ export const authSlice = createSlice({
   reducers: {
     setSession: (state, action: PayloadAction<AuthUser | null>) => {
       state.user = action.payload;
+      state.isHydrated = true;
     },
 
     login: (state, action: PayloadAction<LoginCredentials>) => {
       const foundUser = MOCK_USERS.find(
-        (user) =>
-          user.email === action.payload.email &&
-          user.password === action.payload.password,
+        (mockUser) =>
+          mockUser.email === action.payload.email &&
+          mockUser.password === action.payload.password,
       );
 
       if (!foundUser) {
-        throw new Error('E-mail ou senha inválidos.');
+        throw new Error('Invalid credentials');
       }
 
-      const userWithoutPassword: AuthUser = {
+      state.user = {
         id: foundUser.id,
         name: foundUser.name,
         email: foundUser.email,
         role: foundUser.role,
       };
 
-      state.user = userWithoutPassword;
+      state.isHydrated = true;
     },
 
     logout: (state) => {
       state.user = null;
+      state.isHydrated = true;
     },
   },
 });

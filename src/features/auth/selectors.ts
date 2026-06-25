@@ -8,5 +8,4 @@ export const selectIsAuthenticated = (state: RootState) =>
 export const selectIsAdmin = (state: RootState) =>
   state.auth.user?.role === 'admin';
 
-export const selectIsReadOnlyUser = (state: RootState) =>
-  state.auth.user?.role === 'user';
+export const selectIsHydrated = (state: RootState) => state.auth.isHydrated;

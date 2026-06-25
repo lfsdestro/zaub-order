@@ -6,7 +6,9 @@ import {
   selectAuthUser,
   selectIsAdmin,
   selectIsAuthenticated,
+  selectIsHydrated,
 } from '@/features/auth/selectors';
+import { getStorageItem, removeStorageItem } from '@/services/storage/localStorage';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { AuthUser } from '@/types/auth';
 import { useEffect } from 'react';
@@ -15,29 +17,26 @@ export function useAuth() {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector(selectAuthUser);
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const isAdmin = useAppSelector(selectIsAdmin);
+  const isHydrated = useAppSelector(selectIsHydrated);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem(STORAGE_KEYS.AUTH_USER);
+    const storedUser = getStorageItem<AuthUser>(STORAGE_KEYS.AUTH_USER);
 
-    if (!storedUser) {
-      return;
-    }
-
-    const parsedUser = JSON.parse(storedUser) as AuthUser;
-    dispatch(setSession(parsedUser));
+    dispatch(setSession(storedUser));
   }, [dispatch]);
 
   function handleLogout() {
-    localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
+    removeStorageItem(STORAGE_KEYS.AUTH_USER);
     dispatch(logout());
   }
 
   return {
     user,
-    isAuthenticated,
     isAdmin,
+    isHydrated,
+    isAuthenticated,
     logout: handleLogout,
   };
 }
