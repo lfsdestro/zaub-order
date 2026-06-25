@@ -1,8 +1,4 @@
-import { AuthUser } from '@/types/auth';
-
-export type MockUser = AuthUser & {
-  password: string;
-};
+import { MockUser } from '@/types/auth';
 
 export const MOCK_USERS: MockUser[] = [
   {
@@ -14,7 +10,7 @@ export const MOCK_USERS: MockUser[] = [
   },
   {
     id: '2',
-    name: 'User Zaub',
+    name: 'Usuário Leitura',
     email: 'user@zaub.com',
     password: 'user123',
     role: 'user',
