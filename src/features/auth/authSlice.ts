@@ -4,18 +4,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type AuthState = {
   user: AuthUser | null;
-  isAuthenticated: boolean;
 };
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: false,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setSession: (state, action: PayloadAction<AuthUser | null>) => {
+      state.user = action.payload;
+    },
+
     login: (state, action: PayloadAction<LoginCredentials>) => {
       const foundUser = MOCK_USERS.find(
         (user) =>
@@ -32,19 +34,17 @@ export const authSlice = createSlice({
         name: foundUser.name,
         email: foundUser.email,
         role: foundUser.role,
-    };
+      };
 
       state.user = userWithoutPassword;
-      state.isAuthenticated = true;
     },
 
     logout: (state) => {
       state.user = null;
-      state.isAuthenticated = false;
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setSession } = authSlice.actions;
 
 export default authSlice.reducer;
