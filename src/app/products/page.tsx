@@ -7,9 +7,9 @@ import {
   useGetProductsQuery,
 } from '@/features/products/productsApi';
 import { useAuth } from '@/hooks/useAuth';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Alert,
-  Box,
   Button,
   Grid,
   MenuItem,
@@ -68,14 +68,23 @@ export default function ProductsPage() {
   return (
     <AppShell>
       <Stack spacing={3}>
-        <Box>
-          <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
-            Catálogo de produtos
-          </Typography>
-          <Typography color="text.secondary">
-            Consulte produtos da DummyJSON com busca, categoria e paginação.
-          </Typography>
-        </Box>
+        <Paper
+          sx={{
+            p: { xs: 3, md: 4 },
+            bgcolor: 'background.paper',
+            border: 1,
+            borderColor: 'divider',
+          }}
+        >
+          <Stack spacing={1}>
+            <Typography component="h1" variant="h4" sx={{ fontWeight: 800 }}>
+              Catálogo de produtos
+            </Typography>
+            <Typography color="text.secondary">
+              Consulte produtos com busca, categoria e paginação.
+            </Typography>
+          </Stack>
+        </Paper>
 
         <Paper sx={{ p: 2 }} component="section" aria-label="Filtros de produto">
           <Stack
@@ -102,7 +111,7 @@ export default function ProductsPage() {
               label="Categoria"
               value={category}
               onChange={(event) => handleCategoryChange(event.target.value)}
-              sx={{ minWidth: { xs: '100%', md: 240 } }}
+              sx={{ minWidth: { xs: '100%', md: 260 } }}
             >
               <MenuItem value="">Todas</MenuItem>
               {categories.map((item) => (
@@ -116,6 +125,8 @@ export default function ProductsPage() {
               type="submit"
               variant="contained"
               aria-label="Buscar produtos"
+              startIcon={<SearchIcon aria-hidden="true" />}
+              sx={{ minWidth: 140 }}
             >
               Buscar
             </Button>
@@ -151,7 +162,7 @@ export default function ProductsPage() {
                 <Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
                   <Skeleton
                     variant="rounded"
-                    height={420}
+                    height={460}
                     aria-label="Carregando produto"
                   />
                 </Grid>
