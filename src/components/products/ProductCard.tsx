@@ -28,11 +28,15 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
   }
 
   return (
-    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Card
+      component="article"
+      aria-label={`Produto ${product.title}`}
+      sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
       <CardMedia
         component="img"
         image={product.thumbnail}
-        alt={product.title}
+        alt={`Imagem do produto ${product.title}`}
         sx={{ height: 180, objectFit: 'contain', bgcolor: 'background.default' }}
       />
 
@@ -51,7 +55,7 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
             />
           </Stack>
 
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+          <Typography component="h2" variant="h6" sx={{ fontWeight: 700 }}>
             {product.title}
           </Typography>
 
@@ -59,8 +63,13 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
             {product.description}
           </Typography>
 
-          <Box>
-            <Rating value={product.rating} precision={0.5} readOnly size="small" />
+          <Box aria-label={`Avaliação ${product.rating} de 5`}>
+            <Rating
+              value={product.rating}
+              precision={0.5}
+              readOnly
+              size="small"
+            />
           </Box>
 
           <Typography variant="h6" color="primary" sx={{ fontWeight: 700 }}>
@@ -71,6 +80,16 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
             variant="contained"
             disabled={!canAddToCart}
             onClick={handleAddToCart}
+            aria-label={
+              canAddToCart
+                ? `Adicionar ${product.title} ao carrinho`
+                : `Produto ${product.title} disponível apenas para leitura`
+            }
+            title={
+              canAddToCart
+                ? `Adicionar ${product.title} ao carrinho`
+                : 'Usuário sem permissão para adicionar ao carrinho'
+            }
           >
             {canAddToCart ? 'Adicionar ao carrinho' : 'Somente leitura'}
           </Button>

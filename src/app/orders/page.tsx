@@ -4,14 +4,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { selectOrders } from '@/features/orders/selectors';
 import { useAppSelector } from '@/store/hooks';
 import { formatDateTime } from '@/utils/formatters';
-import {
-  Alert,
-  Box,
-  Button,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Alert, Box, Button, Paper, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 
 export default function OrdersPage() {
@@ -21,7 +14,7 @@ export default function OrdersPage() {
     <AppShell>
       <Stack spacing={3}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
             Histórico de pedidos
           </Typography>
 
@@ -42,9 +35,9 @@ export default function OrdersPage() {
             Nenhum pedido finalizado até o momento.
           </Alert>
         ) : (
-          <Stack spacing={2}>
+          <Stack spacing={2} component="section" aria-label="Lista de pedidos">
             {orders.map((order) => (
-              <Paper key={order.id} sx={{ p: 3 }}>
+              <Paper key={order.id} sx={{ p: 3 }} component="article">
                 <Stack
                   direction={{ xs: 'column', md: 'row' }}
                   spacing={2}
@@ -54,7 +47,7 @@ export default function OrdersPage() {
                   }}
                 >
                   <Box>
-                    <Typography sx={{ fontWeight: 700 }}>
+                    <Typography component="h2" sx={{ fontWeight: 700 }}>
                       Pedido #{order.id.slice(0, 8)}
                     </Typography>
 
@@ -73,6 +66,7 @@ export default function OrdersPage() {
                     component={Link}
                     href={`/orders/${order.id}`}
                     variant="outlined"
+                    aria-label={`Ver detalhes do pedido ${order.id.slice(0, 8)}`}
                   >
                     Ver detalhes
                   </Button>
