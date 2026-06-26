@@ -77,9 +77,6 @@ export default function ProductsPage() {
           <Typography variant="h4" sx={{ fontWeight: 700 }}>
             Catálogo de produtos
           </Typography>
-          <Typography color="text.secondary">
-            Consulte produtos da DummyJSON com busca, categoria e paginação.
-          </Typography>
         </Box>
 
         <Paper sx={{ p: 2 }}>
