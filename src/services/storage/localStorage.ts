@@ -3,13 +3,17 @@ export function getStorageItem<T>(key: string): T | null {
     return null;
   }
 
-  const value = window.localStorage.getItem(key);
+  try {
+    const value = window.localStorage.getItem(key);
 
-  if (!value) {
+    if (!value) {
+      return null;
+    }
+
+    return JSON.parse(value) as T;
+  } catch {
     return null;
   }
-
-  return JSON.parse(value) as T;
 }
 
 export function setStorageItem<T>(key: string, value: T): void {
