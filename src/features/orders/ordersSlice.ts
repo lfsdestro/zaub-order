@@ -1,8 +1,7 @@
-import { clearCart } from '@/features/cart/cartSlice';
-import { CartItem } from '@/features/cart/types';
-import { AppDispatch } from '@/store/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { clearCart } from '../cart/cartSlice';
+import { CartItem } from '../cart/types';
 import { Order, OrderItem } from './types';
 
 type OrdersState = {
@@ -52,10 +51,11 @@ export const ordersSlice = createSlice({
 
 export const { createOrder, setOrders } = ordersSlice.actions;
 
-export const createOrderAndClearCart =
-  (items: CartItem[]) => (dispatch: AppDispatch) => {
-    dispatch(createOrder(items));
-    dispatch(clearCart());
+export const createOrderAndClearCart = (items: CartItem[]) => {
+  return {
+    createOrderAction: createOrder(items),
+    clearCartAction: clearCart(),
   };
+};
 
 export default ordersSlice.reducer;
