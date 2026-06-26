@@ -36,6 +36,14 @@ export const createAppTheme = (mode: PaletteMode) =>
       },
     },
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          ':focus-visible': {
+            outline: `3px solid ${mode === 'light' ? '#ff9800' : '#90caf9'}`,
+            outlineOffset: '3px',
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {

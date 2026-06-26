@@ -31,7 +31,7 @@ export default function CartPage() {
     <AppShell>
       <Stack spacing={3}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
             Carrinho
           </Typography>
 
@@ -52,13 +52,13 @@ export default function CartPage() {
             Seu carrinho está vazio.
           </Alert>
         ) : (
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: 3 }} component="section" aria-label="Itens do carrinho">
             <Stack spacing={2}>
               {items.map((item) => {
                 const subtotal = item.product.price * item.quantity;
 
                 return (
-                  <Box key={item.product.id}>
+                  <Box key={item.product.id} component="article">
                     <Stack
                       direction={{ xs: 'column', md: 'row' }}
                       spacing={2}
@@ -68,7 +68,7 @@ export default function CartPage() {
                       }}
                     >
                       <Box>
-                        <Typography sx={{ fontWeight: 700 }}>
+                        <Typography component="h2" sx={{ fontWeight: 700 }}>
                           {item.product.title}
                         </Typography>
 
@@ -82,7 +82,10 @@ export default function CartPage() {
                         type="number"
                         size="small"
                         value={item.quantity}
-                        inputProps={{ min: 1 }}
+                        inputProps={{
+                          min: 1,
+                          'aria-label': `Quantidade de ${item.product.title}`,
+                        }}
                         onChange={(event) =>
                           dispatch(
                             updateQuantity({
@@ -101,9 +104,10 @@ export default function CartPage() {
                       <IconButton
                         color="error"
                         onClick={() => dispatch(removeFromCart(item.product.id))}
-                        aria-label={`Remover ${item.product.title}`}
+                        aria-label={`Remover ${item.product.title} do carrinho`}
+                        title={`Remover ${item.product.title} do carrinho`}
                       >
-                        <DeleteIcon />
+                        <DeleteIcon aria-hidden="true" />
                       </IconButton>
                     </Stack>
 
@@ -117,11 +121,16 @@ export default function CartPage() {
                 spacing={2}
                 sx={{ justifyContent: 'space-between', alignItems: 'center' }}
               >
-                <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                <Typography component="p" variant="h6" sx={{ fontWeight: 700 }}>
                   Total: US$ {total.toFixed(2)}
                 </Typography>
 
-                <Button component={Link} href="/checkout" variant="contained">
+                <Button
+                  component={Link}
+                  href="/checkout"
+                  variant="contained"
+                  aria-label="Ir para o checkout e finalizar pedido"
+                >
                   Finalizar pedido
                 </Button>
               </Stack>

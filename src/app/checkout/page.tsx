@@ -50,7 +50,7 @@ export default function CheckoutPage() {
     <AppShell>
       <Stack spacing={3}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
             Checkout
           </Typography>
 
@@ -71,13 +71,13 @@ export default function CheckoutPage() {
             Seu carrinho está vazio.
           </Alert>
         ) : (
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: 3 }} component="section" aria-label="Resumo do pedido">
             <Stack spacing={2}>
               {items.map((item) => {
                 const subtotal = item.product.price * item.quantity;
 
                 return (
-                  <Stack key={item.product.id} spacing={1}>
+                  <Stack key={item.product.id} spacing={1} component="article">
                     <Stack
                       direction={{ xs: 'column', sm: 'row' }}
                       sx={{
@@ -86,7 +86,7 @@ export default function CheckoutPage() {
                       }}
                     >
                       <Box>
-                        <Typography sx={{ fontWeight: 700 }}>
+                        <Typography component="h2" sx={{ fontWeight: 700 }}>
                           {item.product.title}
                         </Typography>
 
@@ -113,11 +113,16 @@ export default function CheckoutPage() {
                   gap: 2,
                 }}
               >
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Typography component="p" variant="h5" sx={{ fontWeight: 700 }}>
                   Total: US$ {total.toFixed(2)}
                 </Typography>
 
-                <Button variant="contained" size="large" onClick={handleFinishOrder}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={handleFinishOrder}
+                  aria-label="Confirmar e finalizar pedido"
+                >
                   Confirmar pedido
                 </Button>
               </Stack>
@@ -129,6 +134,10 @@ export default function CheckoutPage() {
           open={successOpen}
           autoHideDuration={3000}
           message="Pedido finalizado com sucesso."
+          ContentProps={{
+            role: 'status',
+            'aria-live': 'polite',
+          }}
         />
       </Stack>
     </AppShell>

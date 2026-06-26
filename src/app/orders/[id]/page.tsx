@@ -24,7 +24,7 @@ export default function OrderDetailsPage() {
     <AppShell>
       <Stack spacing={3}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
             Detalhes do pedido
           </Typography>
 
@@ -45,10 +45,10 @@ export default function OrderDetailsPage() {
             Pedido não encontrado.
           </Alert>
         ) : (
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: 3 }} component="section" aria-label="Detalhes do pedido">
             <Stack spacing={3}>
               <Box>
-                <Typography sx={{ fontWeight: 700 }}>
+                <Typography component="h2" sx={{ fontWeight: 700 }}>
                   Pedido #{order.id.slice(0, 8)}
                 </Typography>
 
@@ -60,7 +60,7 @@ export default function OrderDetailsPage() {
               <Divider />
 
               {order.items.map((item) => (
-                <Stack key={item.product.id} spacing={1}>
+                <Stack key={item.product.id} spacing={1} component="article">
                   <Stack
                     direction={{ xs: 'column', md: 'row' }}
                     sx={{
@@ -69,7 +69,7 @@ export default function OrderDetailsPage() {
                     }}
                   >
                     <Box>
-                      <Typography sx={{ fontWeight: 700 }}>
+                      <Typography component="h3" sx={{ fontWeight: 700 }}>
                         {item.product.title}
                       </Typography>
 
@@ -87,11 +87,16 @@ export default function OrderDetailsPage() {
                 </Stack>
               ))}
 
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
+              <Typography component="p" variant="h5" sx={{ fontWeight: 700 }}>
                 Total: US$ {order.total.toFixed(2)}
               </Typography>
 
-              <Button component={Link} href="/orders" variant="outlined">
+              <Button
+                component={Link}
+                href="/orders"
+                variant="outlined"
+                aria-label="Voltar ao histórico de pedidos"
+              >
                 Voltar ao histórico
               </Button>
             </Stack>

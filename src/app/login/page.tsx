@@ -55,7 +55,6 @@ export default function LoginPage() {
     try {
       dispatch(login(data));
 
-      // Redux atualiza no próximo ciclo, então pegamos o usuário diretamente pelo retorno do reducer no próximo acesso.
       const loggedUser =
         data.email === 'admin@zaub.com'
           ? {
@@ -80,7 +79,7 @@ export default function LoginPage() {
   }
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" component="main">
       <Box
         sx={{
           minHeight: '100vh',
@@ -93,11 +92,11 @@ export default function LoginPage() {
         <Paper elevation={3} sx={{ width: '100%', p: 4 }}>
           <Stack spacing={3} sx={{ alignItems: 'center' }}>
             <Avatar sx={{ bgcolor: 'primary.main' }}>
-              <LockOutlinedIcon />
+              <LockOutlinedIcon aria-hidden="true" />
             </Avatar>
 
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
+              <Typography component="h1" variant="h5" sx={{ fontWeight: 700 }}>
                 Zaub Order
               </Typography>
 
@@ -106,12 +105,17 @@ export default function LoginPage() {
               </Typography>
             </Box>
 
-            {errorMessage ? <Alert severity="error">{errorMessage}</Alert> : null}
+            {errorMessage ? (
+              <Alert severity="error" role="alert">
+                {errorMessage}
+              </Alert>
+            ) : null}
 
             <Box
               component="form"
               onSubmit={handleSubmit(onSubmit)}
               sx={{ width: '100%' }}
+              aria-label="Formulário de login"
             >
               <Stack spacing={2}>
                 <Controller
@@ -120,11 +124,15 @@ export default function LoginPage() {
                   render={({ field }) => (
                     <TextField
                       {...field}
+                      id="email"
                       label="E-mail"
                       type="email"
                       fullWidth
+                      autoComplete="email"
                       error={Boolean(errors.email)}
                       helperText={errors.email?.message}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
+                      FormHelperTextProps={{ id: 'email-error' }}
                     />
                   )}
                 />
@@ -135,11 +143,17 @@ export default function LoginPage() {
                   render={({ field }) => (
                     <TextField
                       {...field}
+                      id="password"
                       label="Senha"
                       type="password"
                       fullWidth
+                      autoComplete="current-password"
                       error={Boolean(errors.password)}
                       helperText={errors.password?.message}
+                      aria-describedby={
+                        errors.password ? 'password-error' : undefined
+                      }
+                      FormHelperTextProps={{ id: 'password-error' }}
                     />
                   )}
                 />
@@ -149,6 +163,7 @@ export default function LoginPage() {
                   variant="contained"
                   size="large"
                   disabled={isSubmitting}
+                  aria-label="Entrar na aplicação"
                 >
                   Entrar
                 </Button>
