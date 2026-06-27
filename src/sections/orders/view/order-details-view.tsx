@@ -1,0 +1,108 @@
+'use client';
+
+import { AppShell } from '@/components/layout/AppShell';
+import { selectOrderById } from '@/features/orders/selectors';
+import { useAppSelector } from '@/store/hooks';
+import { formatCurrency, formatDateTime } from '@/utils/formatters';
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+
+export function OrderDetailsView() {
+  const params = useParams<{ id: string }>();
+  const order = useAppSelector(selectOrderById(params.id));
+
+  return (
+    <AppShell>
+      <Stack spacing={3}>
+        <Box>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
+            Detalhes do pedido
+          </Typography>
+
+          <Typography color="text.secondary">
+            Informações completas do pedido selecionado.
+          </Typography>
+        </Box>
+
+        {!order ? (
+          <Alert
+            severity="warning"
+            action={
+              <Button component={Link} href="/orders" color="inherit">
+                Voltar
+              </Button>
+            }
+          >
+            Pedido não encontrado.
+          </Alert>
+        ) : (
+          <Paper sx={{ p: 3 }} component="section" aria-label="Detalhes do pedido">
+            <Stack spacing={3}>
+              <Box>
+                <Typography component="h2" sx={{ fontWeight: 700 }}>
+                  Pedido #{order.id.slice(0, 8)}
+                </Typography>
+
+                <Typography variant="body2" color="text.secondary">
+                  {formatDateTime(order.createdAt)}
+                </Typography>
+              </Box>
+
+              <Divider />
+
+              {order.items.map((item) => (
+                <Stack key={item.product.id} spacing={1} component="article">
+                  <Stack
+                    direction={{ xs: 'column', md: 'row' }}
+                    sx={{
+                      justifyContent: 'space-between',
+                      gap: 1,
+                    }}
+                  >
+                    <Box>
+                      <Typography component="h3" sx={{ fontWeight: 700 }}>
+                        {item.product.title}
+                      </Typography>
+
+                      <Typography variant="body2" color="text.secondary">
+                        {item.quantity}x {formatCurrency(item.product.price)}
+                      </Typography>
+                    </Box>
+
+                    <Typography sx={{ fontWeight: 700 }}>
+                      {formatCurrency(item.subtotal)}
+                    </Typography>
+                  </Stack>
+
+                  <Divider />
+                </Stack>
+              ))}
+
+              <Typography component="p" variant="h5" sx={{ fontWeight: 700 }}>
+                Total: {formatCurrency(order.total)}
+              </Typography>
+
+              <Button
+                component={Link}
+                href="/orders"
+                variant="outlined"
+                aria-label="Voltar ao histórico de pedidos"
+              >
+                Voltar ao histórico
+              </Button>
+            </Stack>
+          </Paper>
+        )}
+      </Stack>
+    </AppShell>
+  );
+}

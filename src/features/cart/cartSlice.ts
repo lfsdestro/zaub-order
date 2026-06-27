@@ -1,7 +1,5 @@
-import { Product } from '@/features/products/types';
+import { CartItem, Product } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-import { CartItem } from './types';
 
 type CartState = {
   items: CartItem[];
@@ -43,9 +41,7 @@ export const cartSlice = createSlice({
         (cartItem) => cartItem.product.id === action.payload.productId,
       );
 
-      if (!item) {
-        return;
-      }
+      if (!item) return;
 
       item.quantity = Math.max(1, action.payload.quantity);
     },

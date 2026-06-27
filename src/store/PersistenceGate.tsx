@@ -3,13 +3,11 @@
 import { STORAGE_KEYS } from '@/constants/storage';
 import { setSession } from '@/features/auth/authSlice';
 import { setCartItems } from '@/features/cart/cartSlice';
-import { CartItem } from '@/features/cart/types';
 import { setOrders } from '@/features/orders/ordersSlice';
-import { Order } from '@/features/orders/types';
 import { setThemeMode } from '@/features/theme/themeSlice';
 import { getStorageItem } from '@/services/storage/localStorage';
 import { useAppDispatch } from '@/store/hooks';
-import { AuthUser } from '@/types/auth';
+import { AuthUser, CartItem, Order } from '@/types';
 import { PaletteMode } from '@mui/material';
 import { ReactNode, useEffect } from 'react';
 

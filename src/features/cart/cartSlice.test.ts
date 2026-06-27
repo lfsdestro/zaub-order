@@ -4,7 +4,7 @@ import cartReducer, {
   removeFromCart,
   updateQuantity,
 } from './cartSlice';
-import { Product } from '../products/types';
+import { Product } from '@/types/product';
 import { describe, expect, it } from 'vitest';
 
 const product: Product = {

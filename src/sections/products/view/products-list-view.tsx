@@ -1,15 +1,14 @@
 'use client';
 
 import { AppShell } from '@/components/layout/AppShell';
-import { ProductCard } from '@/components/products/ProductCard';
 import {
   useGetCategoriesQuery,
   useGetProductsQuery,
-} from '@/features/products/productsApi';
+} from '@/services/api/productsApi';
 import { useAuth } from '@/hooks/useAuth';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Alert,
-  Box,
   Button,
   Grid,
   MenuItem,
@@ -21,9 +20,11 @@ import {
 } from '@mui/material';
 import { useMemo, useState } from 'react';
 
+import { ProductCard } from '../components/product-card';
+
 const PRODUCTS_LIMIT = 12;
 
-export default function ProductsPage() {
+export function ProductsListView() {
   const { isAdmin } = useAuth();
 
   const [search, setSearch] = useState('');
@@ -43,13 +44,8 @@ export default function ProductsPage() {
     [category, skip, submittedSearch],
   );
 
-  const {
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    refetch,
-  } = useGetProductsQuery(productsQueryParams);
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetProductsQuery(productsQueryParams);
 
   const { data: categories = [] } = useGetCategoriesQuery();
 
@@ -73,27 +69,50 @@ export default function ProductsPage() {
   return (
     <AppShell>
       <Stack spacing={3}>
-        <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
-            Catálogo de produtos
-          </Typography>
-        </Box>
+        <Paper
+          sx={{
+            p: { xs: 3, md: 4 },
+            bgcolor: 'background.paper',
+            border: 1,
+            borderColor: 'divider',
+          }}
+        >
+          <Stack spacing={1}>
+            <Typography component="h1" variant="h4" sx={{ fontWeight: 800 }}>
+              Catálogo de produtos
+            </Typography>
+            <Typography color="text.secondary">
+              Consulte produtos da DummyJSON com busca, categoria e paginação.
+            </Typography>
+          </Stack>
+        </Paper>
 
-        <Paper sx={{ p: 2 }}>
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+        <Paper sx={{ p: 2 }} component="section" aria-label="Filtros de produto">
+          <Stack
+            component="form"
+            direction={{ xs: 'column', md: 'row' }}
+            spacing={2}
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleSearchSubmit();
+            }}
+          >
             <TextField
+              id="product-search"
               label="Buscar produto"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               fullWidth
+              autoComplete="off"
             />
 
             <TextField
+              id="product-category"
               select
               label="Categoria"
               value={category}
               onChange={(event) => handleCategoryChange(event.target.value)}
-              sx={{ minWidth: { xs: '100%', md: 240 } }}
+              sx={{ minWidth: { xs: '100%', md: 260 } }}
             >
               <MenuItem value="">Todas</MenuItem>
               {categories.map((item) => (
@@ -103,7 +122,13 @@ export default function ProductsPage() {
               ))}
             </TextField>
 
-            <Button variant="contained" onClick={handleSearchSubmit}>
+            <Button
+              type="submit"
+              variant="contained"
+              aria-label="Buscar produtos"
+              startIcon={<SearchIcon aria-hidden="true" />}
+              sx={{ minWidth: 140 }}
+            >
               Buscar
             </Button>
           </Stack>
@@ -112,6 +137,7 @@ export default function ProductsPage() {
         {isError ? (
           <Alert
             severity="error"
+            role="alert"
             action={
               <Button color="inherit" size="small" onClick={() => refetch()}>
                 Tentar novamente
@@ -126,11 +152,20 @@ export default function ProductsPage() {
           <Alert severity="info">Nenhum produto encontrado.</Alert>
         ) : null}
 
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          component="section"
+          aria-label="Lista de produtos"
+        >
           {isLoading || isFetching
             ? Array.from({ length: PRODUCTS_LIMIT }).map((_, index) => (
                 <Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
-                  <Skeleton variant="rounded" height={420} />
+                  <Skeleton
+                    variant="rounded"
+                    height={460}
+                    aria-label="Carregando produto"
+                  />
                 </Grid>
               ))
             : products.map((product) => (
@@ -140,11 +175,18 @@ export default function ProductsPage() {
               ))}
         </Grid>
 
-        <Stack direction="row" spacing={2} sx={{ justifyContent: 'center' }}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ justifyContent: 'center' }}
+          component="nav"
+          aria-label="Paginação de produtos"
+        >
           <Button
             variant="outlined"
             disabled={!hasPreviousPage}
             onClick={() => setPage((currentPage) => currentPage - 1)}
+            aria-label="Ir para a página anterior de produtos"
           >
             Anterior
           </Button>
@@ -153,6 +195,7 @@ export default function ProductsPage() {
             variant="outlined"
             disabled={!hasNextPage}
             onClick={() => setPage((currentPage) => currentPage + 1)}
+            aria-label="Ir para a próxima página de produtos"
           >
             Próxima
           </Button>

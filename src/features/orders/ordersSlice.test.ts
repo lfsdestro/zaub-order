@@ -1,5 +1,5 @@
 import ordersReducer, { createOrder } from './ordersSlice';
-import { Product } from '../products/types';
+import { Product } from '@/types/product';
 import { describe, expect, it } from 'vitest';
 
 const product: Product = {

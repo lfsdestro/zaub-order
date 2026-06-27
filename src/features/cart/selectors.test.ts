@@ -3,7 +3,7 @@ import {
   selectCartTotalItems,
   selectCartTotalPrice,
 } from './selectors';
-import { Product } from '../products/types';
+import { Product } from '@/types/product';
 import { RootState } from '@/store/store';
 import { describe, expect, it } from 'vitest';
 

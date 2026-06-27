@@ -1,7 +1,4 @@
-import {
-  ProductCategory,
-  ProductsResponse,
-} from '@/features/products/types';
+import { ProductCategory, ProductsResponse } from '@/types/product';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 type GetProductsParams = {
