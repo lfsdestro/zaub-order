@@ -3,7 +3,7 @@
 import { AppShell } from '@/components/layout/AppShell';
 import { selectOrderById } from '@/features/orders/selectors';
 import { useAppSelector } from '@/store/hooks';
-import { formatDateTime } from '@/utils/formatters';
+import { formatCurrency, formatDateTime } from '@/utils/formatters';
 import {
   Alert,
   Box,
@@ -74,12 +74,12 @@ export default function OrderDetailsPage() {
                       </Typography>
 
                       <Typography variant="body2" color="text.secondary">
-                        {item.quantity}x US$ {item.product.price.toFixed(2)}
+                        {item.quantity}x {formatCurrency(item.product.price)}
                       </Typography>
                     </Box>
 
                     <Typography sx={{ fontWeight: 700 }}>
-                      US$ {item.subtotal.toFixed(2)}
+                      {formatCurrency(item.subtotal)}
                     </Typography>
                   </Stack>
 
@@ -88,7 +88,7 @@ export default function OrderDetailsPage() {
               ))}
 
               <Typography component="p" variant="h5" sx={{ fontWeight: 700 }}>
-                Total: US$ {order.total.toFixed(2)}
+                Total: {formatCurrency(order.total)}
               </Typography>
 
               <Button
