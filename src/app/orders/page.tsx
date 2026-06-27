@@ -3,7 +3,7 @@
 import { AppShell } from '@/components/layout/AppShell';
 import { selectOrders } from '@/features/orders/selectors';
 import { useAppSelector } from '@/store/hooks';
-import { formatDateTime } from '@/utils/formatters';
+import { formatCurrency, formatDateTime } from '@/utils/formatters';
 import { Alert, Box, Button, Paper, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -59,7 +59,7 @@ export default function OrdersPage() {
                   <Typography>{order.totalItems} itens</Typography>
 
                   <Typography sx={{ fontWeight: 700 }}>
-                    US$ {order.total.toFixed(2)}
+                    {formatCurrency(order.total)}
                   </Typography>
 
                   <Button

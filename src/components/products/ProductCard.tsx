@@ -3,6 +3,7 @@
 import { addToCart } from '@/features/cart/cartSlice';
 import { Product } from '@/features/products/types';
 import { useAppDispatch } from '@/store/hooks';
+import { formatCurrency } from '@/utils/formatters';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import {
@@ -116,7 +117,7 @@ export function ProductCard({ product, canAddToCart }: ProductCardProps) {
             <Box sx={{ flexGrow: 1 }} />
 
             <Typography variant="h5" color="primary" sx={{ fontWeight: 800 }}>
-              US$ {product.price.toFixed(2)}
+              {formatCurrency(product.price)}
             </Typography>
 
             <Button

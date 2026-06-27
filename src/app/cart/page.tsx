@@ -7,6 +7,7 @@ import {
   selectCartTotalPrice,
 } from '@/features/cart/selectors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { formatCurrency } from '@/utils/formatters';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Alert,
@@ -73,7 +74,7 @@ export default function CartPage() {
                         </Typography>
 
                         <Typography variant="body2" color="text.secondary">
-                          US$ {item.product.price.toFixed(2)} cada
+                          {formatCurrency(item.product.price)} cada
                         </Typography>
                       </Box>
 
@@ -98,7 +99,7 @@ export default function CartPage() {
                       />
 
                       <Typography sx={{ fontWeight: 700 }}>
-                        US$ {subtotal.toFixed(2)}
+                        {formatCurrency(subtotal)}
                       </Typography>
 
                       <IconButton
@@ -122,7 +123,7 @@ export default function CartPage() {
                 sx={{ justifyContent: 'space-between', alignItems: 'center' }}
               >
                 <Typography component="p" variant="h6" sx={{ fontWeight: 700 }}>
-                  Total: US$ {total.toFixed(2)}
+                  Total: {formatCurrency(total)}
                 </Typography>
 
                 <Button

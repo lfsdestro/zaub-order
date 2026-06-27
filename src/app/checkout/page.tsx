@@ -8,6 +8,7 @@ import {
 } from '@/features/cart/selectors';
 import { createOrder } from '@/features/orders/ordersSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { formatCurrency } from '@/utils/formatters';
 import {
   Alert,
   Box,
@@ -91,12 +92,12 @@ export default function CheckoutPage() {
                         </Typography>
 
                         <Typography variant="body2" color="text.secondary">
-                          {item.quantity}x US$ {item.product.price.toFixed(2)}
+                          {item.quantity}x {formatCurrency(item.product.price)}
                         </Typography>
                       </Box>
 
                       <Typography sx={{ fontWeight: 700 }}>
-                        US$ {subtotal.toFixed(2)}
+                        {formatCurrency(subtotal)}
                       </Typography>
                     </Stack>
 
@@ -114,7 +115,7 @@ export default function CheckoutPage() {
                 }}
               >
                 <Typography component="p" variant="h5" sx={{ fontWeight: 700 }}>
-                  Total: US$ {total.toFixed(2)}
+                  Total: {formatCurrency(total)}
                 </Typography>
 
                 <Button
