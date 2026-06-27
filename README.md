@@ -1,8 +1,30 @@
 # Zaub Order
 
-Fluxo de pedidos estilo e-commerce desenvolvido como solução para um desafio técnico Frontend.
+Aplicação de fluxo de pedidos desenvolvida como solução para um desafio técnico Frontend.
 
-A aplicação permite autenticação, consulta de produtos, busca, filtro por categoria, carrinho de compras, checkout, histórico de pedidos e detalhes completos de cada pedido.
+O projeto simula um pequeno e-commerce com autenticação, catálogo de produtos, carrinho de compras, checkout e histórico de pedidos, utilizando uma arquitetura moderna baseada em **Next.js App Router**, **Redux Toolkit** e **RTK Query**.
+
+---
+
+# Demonstração
+
+## Funcionalidades
+
+- Autenticação mockada
+- Controle de acesso por perfil (RBAC)
+- Catálogo de produtos
+- Busca por produtos
+- Filtro por categoria
+- Paginação
+- Carrinho de compras
+- Checkout
+- Histórico de pedidos
+- Detalhes do pedido
+- Persistência em localStorage
+- Dark Mode
+- Responsividade
+- Acessibilidade
+- Testes unitários
 
 ---
 
@@ -35,31 +57,37 @@ A aplicação permite autenticação, consulta de produtos, busca, filtro por ca
 npm install
 ```
 
-## Rodar em desenvolvimento
+## Executar em desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Acesse:
+Aplicação disponível em:
 
 ```
 http://localhost:3000
 ```
 
-## Rodar lint
+---
+
+## Lint
 
 ```bash
 npm run lint
 ```
 
-## Rodar testes
+---
+
+## Testes
 
 ```bash
 npm run test:run
 ```
 
-## Gerar build
+---
+
+## Build de produção
 
 ```bash
 npm run build
@@ -71,24 +99,24 @@ npm run build
 
 ## Administrador
 
-Email
+**Email**
 
 ```
 admin@zaub.com
 ```
 
-Senha
+**Senha**
 
 ```
 admin123
 ```
 
-Permissões
+### Permissões
 
 - Visualizar catálogo
 - Adicionar produtos ao carrinho
 - Alterar quantidades
-- Remover itens
+- Remover produtos
 - Finalizar pedidos
 - Consultar histórico
 - Consultar detalhes dos pedidos
@@ -97,19 +125,19 @@ Permissões
 
 ## Usuário somente leitura
 
-Email
+**Email**
 
 ```
 user@zaub.com
 ```
 
-Senha
+**Senha**
 
 ```
 user123
 ```
 
-Permissões
+### Permissões
 
 - Visualizar catálogo
 - Consultar histórico
@@ -117,73 +145,269 @@ Permissões
 
 ---
 
-# Funcionalidades
-
-- Login mockado
-- Controle de permissões por perfil (RBAC)
-- Catálogo de produtos utilizando DummyJSON
-- Busca de produtos
-- Filtro por categoria
-- Paginação
-- Carrinho utilizando Redux Toolkit
-- Atualização de quantidade
-- Remoção de itens
-- Checkout
-- Histórico de pedidos
-- Página de detalhes do pedido
-- Persistência em localStorage
-- Dark Mode
-- Estados de Loading
-- Estados de Erro
-- Empty States
-- Responsividade
-- Acessibilidade
-- Testes unitários
-
----
-
-# Funcionalidades extras implementadas
-
-Além dos requisitos obrigatórios do desafio foram implementados:
-
-- Dark Mode
-- Controle de acesso por perfil
-- Persistência em localStorage
-- Página de detalhes do pedido
-- Testes unitários
-- RTK Query
-- Responsividade Mobile First
-- Melhorias de acessibilidade
-- Feedback visual durante operações
-
----
-
 # Arquitetura
 
-O projeto foi organizado seguindo arquitetura baseada em Features.
+O projeto foi organizado utilizando separação por responsabilidade.
 
 ```
 src
 ├── app
-├── components
-├── constants
+├── sections
+│   ├── auth
+│   ├── home
+│   ├── products
+│   ├── cart
+│   ├── checkout
+│   └── orders
+│
 ├── features
 │   ├── auth
 │   ├── cart
 │   ├── orders
-│   ├── products
 │   └── theme
-├── hooks
+│
 ├── services
+│   ├── api
+│   └── storage
+│
 ├── store
+├── components
+├── hooks
+├── constants
 ├── theme
 ├── types
 └── utils
 ```
 
-Cada feature possui sua própria organização contendo reducers, selectors, tipos e lógica de negócio.
+---
 
-Componentes reutilizáveis permanecem separados dentro da pasta `components`.
+# Organização do projeto
+
+## app
+
+Contém apenas as rotas do App Router do Next.js.
+
+Cada página possui apenas a responsabilidade de renderizar sua respectiva View.
+
+Exemplo:
+
+```tsx
+import { ProductsListView } from '@/sections/products';
+
+export default function ProductsPage() {
+  return <ProductsListView />;
+}
+```
+
+---
+
+## sections
+
+Responsável pela camada de interface da aplicação.
+
+Cada seção representa um domínio visual.
+
+Exemplo:
+
+```
+sections/
+└── products
+    ├── components
+    ├── view
+    └── index.ts
+```
+
+As Views concentram a composição da tela enquanto os componentes específicos ficam organizados dentro da própria seção.
+
+---
+
+## features
+
+Contém exclusivamente o gerenciamento de estado global utilizando Redux Toolkit.
+
+Exemplo:
+
+```
+features/
+├── auth
+├── cart
+├── orders
+└── theme
+```
+
+Cada feature possui seus reducers, actions e selectors.
+
+---
+
+## services
+
+Centraliza toda comunicação externa.
+
+### api
+
+Responsável pelas integrações utilizando RTK Query.
+
+Atualmente:
+
+- productsApi
+
+### storage
+
+Responsável pela persistência utilizando localStorage.
+
+---
+
+## store
+
+Configuração do Redux.
+
+Contém:
+
+- Store
+- Redux Provider
+- Persistence Gate
+- Hooks tipados do Redux
+
+---
+
+## types
+
+Modelos compartilhados entre toda a aplicação.
+
+```
+types/
+├── auth.ts
+├── cart.ts
+├── order.ts
+├── product.ts
+└── index.ts
+```
+
+Todos os modelos utilizados por Redux, UI, API e testes ficam centralizados neste diretório.
+
+---
+
+## components
+
+Componentes globais reutilizáveis.
+
+Exemplos:
+
+- AppShell
+- Guards de autenticação
+
+Componentes específicos permanecem dentro de suas respectivas Sections.
+
+---
+
+## hooks
+
+Hooks reutilizáveis da aplicação.
+
+Exemplo:
+
+- useAuth
+
+Os hooks relacionados ao Redux permanecem dentro da pasta `store`.
+
+---
+
+## utils
+
+Funções utilitárias compartilhadas.
+
+Exemplo:
+
+- formatCurrency
+- formatDateTime
+
+---
+
+# Funcionalidades implementadas
+
+## Autenticação
+
+- Login mockado
+- Logout
+- Persistência da sessão
+- Controle de acesso por perfil
+
+---
+
+## Produtos
+
+- Listagem
+- Busca
+- Filtro por categoria
+- Paginação
+- Loading
+- Tratamento de erro
+- Empty State
+
+---
+
+## Carrinho
+
+- Adicionar produto
+- Alterar quantidade
+- Remover produto
+- Total automático
+- Persistência
+
+---
+
+## Checkout
+
+- Resumo do pedido
+- Criação do pedido
+- Limpeza automática do carrinho
+- Feedback visual
+
+---
+
+## Pedidos
+
+- Histórico
+- Página de detalhes
+- Persistência
+
+---
+
+## Tema
+
+- Dark Mode
+- Persistência da preferência
+
+---
+
+## Acessibilidade
+
+Foram implementadas diversas melhorias seguindo boas práticas de acessibilidade.
+
+- Skip Link
+- Landmarks semânticos
+- Navegação por teclado
+- Focus visível
+- aria-label
+- aria-live
+- Feedback para leitores de tela
+- Contraste adequado
+- Formulários com autocomplete
+
+---
+
+## Testes
+
+O projeto possui testes unitários utilizando:
+
+- Vitest
+- Testing Library
+
+Cobertura atual:
+
+- Cart Reducers
+- Cart Selectors
+- Orders Reducers
 
 ---
 
@@ -191,78 +415,57 @@ Componentes reutilizáveis permanecem separados dentro da pasta `components`.
 
 ## Next.js App Router
 
-Foi utilizado o App Router para aproveitar o modelo atual recomendado pelo Next.js.
+Utilizado por ser o padrão recomendado atualmente para novas aplicações Next.js.
+
+---
 
 ## Redux Toolkit
 
-Responsável pelo gerenciamento dos estados globais da aplicação.
+Responsável pelo gerenciamento do estado global.
 
-Estados controlados:
+Estados gerenciados:
 
 - autenticação
 - carrinho
 - pedidos
 - tema
 
+---
+
 ## RTK Query
 
-Utilizado para consumo da API pública DummyJSON.
+Responsável pelo consumo da API pública DummyJSON.
 
-Principais benefícios:
+Benefícios:
 
 - cache automático
 - loading
-- tratamento de erro
-- invalidação
+- tratamento de erros
 - redução de boilerplate
+- invalidação de cache
+
+---
 
 ## Material UI
 
-Biblioteca escolhida para acelerar o desenvolvimento mantendo consistência visual e excelente suporte à acessibilidade.
+Escolhido pela produtividade, acessibilidade e consistência visual.
+
+---
 
 ## React Hook Form + Zod
 
-Utilizados para validação de formulários com tipagem completa.
+Utilizados para construção de formulários tipados e validação.
+
+---
 
 ## localStorage
 
-Responsável pela persistência de:
+Persistência de:
 
-- usuário logado
+- sessão do usuário
 - carrinho
 - pedidos
 - preferência de tema
-
----
-
-# Acessibilidade
-
-Foram implementadas diversas melhorias de acessibilidade:
-
-- Skip Link
-- landmarks semânticos (`header`, `nav`, `main`, `section`, `article`)
-- aria-label
-- aria-live
-- foco visível
-- autocomplete em formulários
-- contraste adequado
-- navegação por teclado
-- feedback para leitores de tela
-
----
-
-# Testes
-
-Foram criados testes unitários utilizando:
-
-- Vitest
-- Testing Library
-
-Cobertura atual:
-
-- reducers do carrinho
-- selectors do carrinho
-- reducers de pedidos
 
 ---
 
@@ -272,32 +475,37 @@ Algumas decisões foram tomadas considerando o escopo do desafio.
 
 ## Autenticação
 
-Foi utilizada autenticação mockada pois não havia backend disponível.
-
-## Persistência
-
-Pedidos e carrinho permanecem em localStorage.
-
-## API
-
-Foi utilizada a DummyJSON por ser uma API pública adequada para demonstração.
-
-## Controle de acesso
-
-Foi implementado RBAC utilizando usuários mockados para demonstrar separação de permissões.
+Foi utilizada autenticação mockada devido à ausência de backend.
 
 ---
 
-# O que faria em uma evolução do projeto
+## Persistência
+
+Carrinho e pedidos permanecem em localStorage.
+
+---
+
+## API
+
+Foi utilizada a DummyJSON para simular um catálogo real.
+
+---
+
+## Controle de acesso
+
+Implementado utilizando RBAC com usuários mockados.
+
+---
+
+# Evoluções futuras
 
 - Backend real
-- JWT
-- Refresh Token
+- JWT + Refresh Token
 - Cadastro de usuários
 - Painel administrativo
-- Upload de imagens
 - Favoritos
-- Integração com gateway de pagamento
+- Gateway de pagamento
+- Upload de imagens
 - Internacionalização (i18n)
 - Testes E2E com Playwright
 - GitHub Actions
@@ -314,3 +522,21 @@ npm run test:run
 npm run build
 npm run start
 ```
+
+---
+
+# Considerações
+
+Durante o desenvolvimento foram priorizados:
+
+- Código limpo
+- Componentização
+- Arquitetura escalável
+- Tipagem forte
+- Responsividade
+- Acessibilidade
+- Organização por responsabilidades
+- Boas práticas com Redux Toolkit
+- Boas práticas com Next.js App Router
+- Histórico de commits organizado por features
+- Cobertura de testes para regras de negócio
