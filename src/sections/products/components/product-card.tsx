@@ -1,7 +1,7 @@
 'use client';
 
 import { addToCart } from '@/features/cart/cartSlice';
-import { Product } from '@/features/products/types';
+import { Product } from '@/types/product';
 import { useAppDispatch } from '@/store/hooks';
 import { formatCurrency } from '@/utils/formatters';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';

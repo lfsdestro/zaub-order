@@ -1,4 +1,4 @@
-import { CartItem } from '@/features/cart/types';
+import { CartItem } from './cart';
 
 export type OrderItem = CartItem & {
   subtotal: number;

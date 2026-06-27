@@ -1,6 +1,5 @@
 import { RootState } from '@/store/store';
-
-import { Order } from './types';
+import { Order } from '@/types';
 
 export const selectOrders = (state: RootState): Order[] => state.orders.orders;
 

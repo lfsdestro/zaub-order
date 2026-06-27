@@ -1,8 +1,8 @@
 import authReducer from '@/features/auth/authSlice';
 import cartReducer from '@/features/cart/cartSlice';
 import ordersReducer from '@/features/orders/ordersSlice';
-import { productsApi } from '@/features/products/productsApi';
 import themeReducer from '@/features/theme/themeSlice';
+import { productsApi } from '@/services/api/productsApi';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const makeStore = () =>

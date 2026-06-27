@@ -1,4 +1,4 @@
-import { Product } from '@/features/products/types';
+import { Product } from './product';
 
 export type CartItem = {
   product: Product;
