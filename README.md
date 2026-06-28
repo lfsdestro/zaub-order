@@ -95,6 +95,10 @@ npm run build
 
 ---
 
+# Url da aplicação
+
+https://zaub-order.vercel.app/
+
 # Usuários de teste
 
 ## Administrador
